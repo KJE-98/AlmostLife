@@ -14,6 +14,7 @@
       //input is the size of the array
       function createBlankState (size){
         let result = new Array(size).fill(0).map(() => new Array(size).fill(0));
+        return result;
       }
 
       //returns the next frame
@@ -42,10 +43,21 @@
       }
 
       function drawBoardFromState(state, boardSize){
-
+        for (let i = 0; i < boardSize; i++){
+          for (let j = 0; j < boardSize; j++){
+            if (state[i][j]){
+              ctx.beginPath();
+              ctx.fillRect(800/boardSize*(i-1),800/boardSize*(j-1),800/boardSize,800/boardSize);
+            }else{
+              ctx.beginPath();
+              ctx.strokeRect(800/boardSize*(i-1),800/boardSize*(j-1),800/boardSize,800/boardSize);
+            }
+          }
+        }
       }
 
       function draw() {
+        drawBoardFromState(createBlankState(50),50);
 
       }
 
@@ -101,6 +113,8 @@
         wait(100);
         requestanimationframe(draw);
       }
+
+      requestAnimationFrame(draw);
     </script>
   </body>
 </html>
