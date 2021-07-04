@@ -7,12 +7,36 @@
       <canvas id='gameCanvas' height="800" width='800'></canvas>
     </div>
     <script>
-      var gameOn = false;
-      var canvas = document.getElementById("gameCanvas");
-      var ctx = canvas.getContext("2d");
+      let gameOn = false;
+      let canvas = document.getElementById("gameCanvas");
+      let ctx = canvas.getContext("2d");
 
+      //input is the size of the array
+      function createBlankState (size){
+        let result = new Array(size).fill(0).map(() => new Array(size).fill(0));
+      }
+
+      //should leave "state" unchanged
       function generateNewState(state, boardSize){
+        let result = createBlankState (boardSize)
+        for (let i = 0; i < boardSize; i++){
+          for (let j = 0; i < boardSize; j++){
+            if (
+              state[i][j] === 0 &&
+              countNeighbors(state, boardSize, i, j) === 3
+            ){
+              result[i][j] = 1;
+            }
 
+            if (
+              state[i][j] === 1 &&
+              countNeighbors(state, boardSize, i, j) === 3 ||
+              countNeighbors(state, boardSize, i, j) === 2
+            ){
+              result[i][j] = 1;
+            }
+          }
+        }
       }
 
       function drawBoardFromState(state, boardSize){
@@ -22,6 +46,54 @@
       function draw() {
 
       }
+
+      // input is a board state and size, followed by the indices of the cell to check
+      // boardState should be unaltered
+      function countNeighbors(boardState, boardSize, i, j){
+        let counter = 0;
+        if (i-1 >= 0 && j-1 >= 0){
+          if (boardState[i-1][j-1]){
+            counter ++;
+          }
+        }
+        if (j-1 >= 0){
+          if (boardState[i][j-1]){
+            counter ++;
+          }
+        }
+        if (i+1 < boardSize && j-1 >= 0){
+          if (boardState[i+1][j-1]){
+            counter ++
+          }
+        }
+        if (i+1 < boardSize){
+          if (boardState[i+1][j]){
+            counter ++
+          }
+        }
+        if (i+1 < boardSize && j+1 < boardSize){
+          if (boardState[i+1][j+1]){
+            counter ++
+          }
+        }
+        if (j+1 < boardSize){
+          if (boardState[i][j+1]){
+            counter ++
+          }
+        }
+        if (i-1 >= 0 && j+1 < boardSize){
+          if (boardState[i-1][j+1]){
+            counter ++
+          }
+        }
+        if (i-1 >= 0){
+          if (boardState[i-1][j]){
+            counter ++
+          }
+        }
+        return counter;
+      }
+
 
       if (gameOn === true){
         wait(100);
