@@ -16,6 +16,7 @@
         let result = new Array(size).fill(0).map(() => new Array(size).fill(0));
       }
 
+      //returns the next frame
       //should leave "state" unchanged
       function generateNewState(state, boardSize){
         let result = createBlankState (boardSize)
@@ -37,6 +38,7 @@
             }
           }
         }
+        return result;
       }
 
       function drawBoardFromState(state, boardSize){
