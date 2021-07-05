@@ -21,6 +21,9 @@
       let ctx = canvas.getContext("2d");
       let gridState = createBlankState(50);
       let gridSize = 50;
+      gridState[25][25] = 1;
+      gridState[26][26] = 1;
+      gridState[26][25] = 1;
 
       canvas.addEventListener("click", function(e){canvasClicked(e)});
 
@@ -28,7 +31,6 @@
       //input is the size of the array
       function createBlankState (size){
         let result = new Array(size).fill(0).map(() => new Array(size).fill(0));
-                console.log(result);
         return result;
       }
 
@@ -37,7 +39,8 @@
       function generateNewState(state, boardSize){
         let result = createBlankState (boardSize)
         for (let i = 0; i < boardSize; i++){
-          for (let j = 0; i < boardSize; j++){
+          for (let j = 0; j < boardSize; j++){
+            console.log("loop" + i + ", " + j);
             if (
               state[i][j] === 0 &&
               countNeighbors(state, boardSize, i, j) === 3
@@ -126,7 +129,7 @@
 
       function startButtonHandler(){
         gameOn = !gameOn;
-        startGameLoop();
+        gameLoop();
       }
 
       function resetButtonHandler(){
@@ -135,11 +138,14 @@
       }
 
       function gameLoop(){
+                        console.log("text");
         if (gameOn === true){
+                          console.log("text");
           let newGridState = generateNewState(gridState, gridSize);
           gridState = newGridState;
           console.log("log");
-          setTimeout(gameLoop(), 100);
+          requestAnimationFrame(draw);
+          setTimeout(function(){gameLoop()}, 10000);
         }
       }
 
