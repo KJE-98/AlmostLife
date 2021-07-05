@@ -152,11 +152,13 @@
       }
 
       function canvasClicked(e){
-        let rect = canvas.getBoundingClientRect();
-        let x = e.pageX - rect.left;
-        let y = e.pageY - rect.top;
-        let i = Math.floor((x)*gridSize/800);
-        let j = Math.floor((y)*gridSize/800);
+
+        let canvasLeft = canvas.offsetLeft + canvas.clientLeft;
+        let canvasTop = canvas.offsetTop + canvas.clientTop;
+        let x = e.pageX - canvasLeft;
+        let y = e.pageY - canvasTop;
+        let i = Math.floor((x)*gridSize/800)+1;
+        let j = Math.floor((y)*gridSize/800)+1;
         if (!gameOn){
           if (gridState[i][j] === 0){
             gridState[i][j] = 1;
