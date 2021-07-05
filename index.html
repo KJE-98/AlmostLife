@@ -6,17 +6,30 @@
     <div>
       <canvas id='gameCanvas' height="800" width='800'></canvas>
     </div>
+
+    <div>
+      <button type = "button" onClick = "startButtonHandler()"> Start/Pause </button>
+      <button type = "button" onClick = "resetButtonHandler()"> Reset </button>
+      <label for="gridSize"> Grid Size </label>
+      <input type = "text" id = "gridsize" name = "gridSize">
+    </div>
+
+
     <script>
       let gameOn = false;
       let canvas = document.getElementById("gameCanvas");
       let ctx = canvas.getContext("2d");
+      let gridState = createBlankState(50);
+      let gridSize = 50;
+
+      canvas.addEventListener("click", function(e){canvasClicked(e)});
+
 
       //input is the size of the array
       function createBlankState (size){
         let result = new Array(size).fill(0).map(() => new Array(size).fill(0));
                 console.log(result);
         return result;
-
       }
 
       //returns the next frame
@@ -47,7 +60,6 @@
       function drawBoardFromState(state, boardSize){
         for (let i = 0; i < boardSize; i++){
           for (let j = 0; j < boardSize; j++){
-            console.log(i + ", " + j);
             if (state[i][j]){
               ctx.beginPath();
               ctx.fillRect((i-1)*800/boardSize, (j-1)*800/boardSize, 800/boardSize, 800/boardSize);
@@ -62,7 +74,7 @@
       }
 
       function draw() {
-        drawBoardFromState(createBlankState(50), 50);
+        drawBoardFromState(gridState, gridSize);
       }
 
       // input is a board state and size, followed by the indices of the cell to check
@@ -112,12 +124,31 @@
         return counter;
       }
 
-
-      if (gameOn === true){
-        wait(100);
-        requestAnimationFrame(draw);
+      function startButtonHandler(){
+        gameOn = !gameOn;
+        startGameLoop();
       }
 
+      function resetButtonHandler(){
+        gameOn = false;
+        gridState = createBlankState(50);
+      }
+
+      function gameLoop(){
+        if (gameOn === true){
+          let newGridState = generateNewState(gridState, gridSize);
+          gridState = newGridState;
+          console.log("log");
+          setTimeout(gameLoop(), 100);
+        }
+      }
+
+      function canvasClicked(e){
+        let rect = canvas.getBoundingClientRect();
+        let x = e.pageX - rect.left;
+        let y = e.pageY - rect.top;
+
+      }
       requestAnimationFrame(draw);
     </script>
   </body>
