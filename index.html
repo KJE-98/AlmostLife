@@ -63,7 +63,7 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < boardSize; i++){
           for (let j = 0; j < boardSize; j++){
-            if (state[i][j]){
+            if (state[i][j] === 1){
               ctx.beginPath();
               ctx.fillRect((i-1)*800/boardSize, (j-1)*800/boardSize, 800/boardSize, 800/boardSize);
               ctx.closePath();
@@ -139,6 +139,7 @@
       function resetButtonHandler(){
         gameOn = false;
         gridState = createBlankState(50);
+        requestAnimationFrame(draw);
       }
 
       function gameLoop(){
@@ -154,8 +155,19 @@
         let rect = canvas.getBoundingClientRect();
         let x = e.pageX - rect.left;
         let y = e.pageY - rect.top;
+        let i = Math.floor((x)*gridSize/800);
+        let j = Math.floor((y)*gridSize/800);
+        if (!gameOn){
+          if (gridState[i][j] === 0){
+            gridState[i][j] = 1;
 
+          }else if (gridState[i][j] === 1){
+            gridState[i][j] = 0;
+          }
+        }
+        requestAnimationFrame(draw)
       }
+
       requestAnimationFrame(draw);
     </script>
   </body>
