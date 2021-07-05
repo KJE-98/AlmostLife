@@ -1,0 +1,21 @@
+body {
+  background-color: #A3CCF4;
+}
+
+button {
+  border-radius: 5px 5px 5px 5px;
+  background-color: #4E9DBB;
+  border: 2px solid #4E9DBB;
+  margin-right: 5%;
+}
+button:hover {
+  background-color: white;
+}
+
+h1 {
+  text-align: center;
+  color: #282c34
+}
+div {
+  text-align: center;
+}
