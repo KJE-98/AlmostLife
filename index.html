@@ -3,6 +3,7 @@
   <head>
   </head>
   <body>
+        <h1> Almost Conway's Game of Life </h1>
     <div>
       <canvas id='gameCanvas' height="800" width='800'></canvas>
     </div>
@@ -10,10 +11,10 @@
     <div>
       <button type = "button" onClick = "startButtonHandler()"> Start/Pause </button>
       <button type = "button" onClick = "resetButtonHandler()"> Reset </button>
-      <label for="gridSize"> Grid Size </label>
-      <input type = "text" id = "gridsize" name = "gridSize">
+      <button type = "button" onClick = "changeSize()"> Change Size </button>
+      <button type = "button" onClick = "changeSpeed()"> Change Speed </button>
+      <button type = "button" onClick = "changeError()"> Change Error Probability </button>
     </div>
-
 
     <script>
       let gameOn = false;
@@ -21,6 +22,8 @@
       let ctx = canvas.getContext("2d");
       let gridState = createBlankState(50);
       let gridSize = 50;
+      let frameSpeed = 1;
+      let error = 0;
       gridState[26][24] = 1;
       gridState[26][26] = 1;
       gridState[26][25] = 1;
@@ -46,7 +49,6 @@
             ){
               result[i][j] = 1;
             }
-
             if (
               state[i][j] === 1 &&
               (countNeighbors(state, boardSize, i, j) === 3 ||
@@ -54,6 +56,11 @@
             ){
               result[i][j] = 1;
             }
+            // adding the random errors
+            if ( Math.random() < error ){
+              result[i][j] = 1 - result[i][j];
+            }
+
           }
         }
         return result;
@@ -77,7 +84,6 @@
       }
 
       function draw() {
-        console.log("drawing");
         drawBoardFromState(gridState, gridSize);
       }
 
@@ -138,7 +144,7 @@
 
       function resetButtonHandler(){
         gameOn = false;
-        gridState = createBlankState(50);
+        gridState = createBlankState(gridSize);
         requestAnimationFrame(draw);
       }
 
@@ -147,7 +153,7 @@
           let newGridState = generateNewState(gridState, gridSize);
           gridState = newGridState;
           requestAnimationFrame(draw);
-          setTimeout(function(){gameLoop()}, 1000);
+          setTimeout(function(){gameLoop()}, 1000*frameSpeed);
         }
       }
 
@@ -169,6 +175,25 @@
         }
         requestAnimationFrame(draw)
       }
+
+      function changeSize(){
+        let newSize = prompt("What would you like the side length to be:", "<here>");
+        newSize = parseInt(newSize);
+        gridState = createBlankState(newSize);
+        gridSize = newSize;
+        requestAnimationFrame(draw);
+      }
+
+      function changeSpeed(){
+        let newSpeed = prompt("What would you like the frame speed to be (seconds per frame):", "<here>");
+        frameSpeed = newSpeed;
+      }
+
+      function changeError(){
+        let newError = prompt("What would you like probability of a random switch to be:", "<here>");
+        error = newError;
+      }
+
 
       requestAnimationFrame(draw);
     </script>
