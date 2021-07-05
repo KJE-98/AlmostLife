@@ -14,7 +14,9 @@
       //input is the size of the array
       function createBlankState (size){
         let result = new Array(size).fill(0).map(() => new Array(size).fill(0));
+                console.log(result);
         return result;
+
       }
 
       //returns the next frame
@@ -45,20 +47,22 @@
       function drawBoardFromState(state, boardSize){
         for (let i = 0; i < boardSize; i++){
           for (let j = 0; j < boardSize; j++){
+            console.log(i + ", " + j);
             if (state[i][j]){
               ctx.beginPath();
-              ctx.fillRect(800/boardSize*(i-1),800/boardSize*(j-1),800/boardSize,800/boardSize);
+              ctx.fillRect((i-1)*800/boardSize, (j-1)*800/boardSize, 800/boardSize, 800/boardSize);
+              ctx.closePath();
             }else{
               ctx.beginPath();
-              ctx.strokeRect(800/boardSize*(i-1),800/boardSize*(j-1),800/boardSize,800/boardSize);
+              ctx.strokeRect((i-1)*800/boardSize, (j-1)*800/boardSize, 800/boardSize, 800/boardSize);
+              ctx.closePath();
             }
           }
         }
       }
 
       function draw() {
-        drawBoardFromState(createBlankState(50),50);
-
+        drawBoardFromState(createBlankState(50), 50);
       }
 
       // input is a board state and size, followed by the indices of the cell to check
@@ -111,7 +115,7 @@
 
       if (gameOn === true){
         wait(100);
-        requestanimationframe(draw);
+        requestAnimationFrame(draw);
       }
 
       requestAnimationFrame(draw);
