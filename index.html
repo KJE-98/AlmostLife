@@ -21,7 +21,7 @@
       let ctx = canvas.getContext("2d");
       let gridState = createBlankState(50);
       let gridSize = 50;
-      gridState[25][25] = 1;
+      gridState[26][24] = 1;
       gridState[26][26] = 1;
       gridState[26][25] = 1;
 
@@ -37,10 +37,9 @@
       //returns the next frame
       //should leave "state" unchanged
       function generateNewState(state, boardSize){
-        let result = createBlankState (boardSize)
+        let result = createBlankState (boardSize);
         for (let i = 0; i < boardSize; i++){
           for (let j = 0; j < boardSize; j++){
-            console.log("loop" + i + ", " + j);
             if (
               state[i][j] === 0 &&
               countNeighbors(state, boardSize, i, j) === 3
@@ -50,8 +49,8 @@
 
             if (
               state[i][j] === 1 &&
-              countNeighbors(state, boardSize, i, j) === 3 ||
-              countNeighbors(state, boardSize, i, j) === 2
+              (countNeighbors(state, boardSize, i, j) === 3 ||
+              countNeighbors(state, boardSize, i, j) === 2)
             ){
               result[i][j] = 1;
             }
@@ -61,6 +60,7 @@
       }
 
       function drawBoardFromState(state, boardSize){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < boardSize; i++){
           for (let j = 0; j < boardSize; j++){
             if (state[i][j]){
@@ -77,6 +77,7 @@
       }
 
       function draw() {
+        console.log("drawing");
         drawBoardFromState(gridState, gridSize);
       }
 
@@ -124,6 +125,9 @@
             counter ++
           }
         }
+        if (counter>2){
+                  console.log(i + ", " + j + ", neighbors: " + counter);
+        }
         return counter;
       }
 
@@ -138,14 +142,11 @@
       }
 
       function gameLoop(){
-                        console.log("text");
         if (gameOn === true){
-                          console.log("text");
           let newGridState = generateNewState(gridState, gridSize);
           gridState = newGridState;
-          console.log("log");
           requestAnimationFrame(draw);
-          setTimeout(function(){gameLoop()}, 10000);
+          setTimeout(function(){gameLoop()}, 1000);
         }
       }
 
