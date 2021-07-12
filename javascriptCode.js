@@ -165,11 +165,13 @@ function changeSize(){
 
 function changeSpeed(){
   let newSpeed = prompt("What would you like the frame speed to be (seconds per frame):", frameSpeed);
-  if (newSpeed !== null){frameSpeed = newSpeed;}
+  newSpeed = parseInt(newSpeed);
+  frameSpeed = newSpeed;
 }
 
 function changeError(){
   let newError = prompt("What would you like probability of a random switch to be:", error);
+  newError = parseInt(newError);
   error = newError;
 }
 
