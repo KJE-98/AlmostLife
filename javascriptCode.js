@@ -165,7 +165,7 @@ function changeSize(){
 
 function changeSpeed(){
   let newSpeed = prompt("What would you like the frame speed to be (seconds per frame):", frameSpeed);
-  frameSpeed = newSpeed;
+  if (newSpeed !== null){frameSpeed = newSpeed;}
 }
 
 function changeError(){
