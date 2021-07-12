@@ -157,6 +157,7 @@ function canvasClicked(e){
 
 function changeSize(){
   let newSize = prompt("What would you like the side length to be:", gridSize);
+  if (newSize === null){return;}
   newSize = parseInt(newSize);
   gridState = createBlankState(newSize);
   gridSize = newSize;
@@ -165,12 +166,14 @@ function changeSize(){
 
 function changeSpeed(){
   let newSpeed = prompt("What would you like the frame speed to be (seconds per frame):", frameSpeed);
+  if (newSpeed === null){return;}
   newSpeed = parseInt(newSpeed);
   frameSpeed = newSpeed;
 }
 
 function changeError(){
   let newError = prompt("What would you like probability of a random switch to be:", error);
+  if (newError === null){return;}
   newError = parseInt(newError);
   error = newError;
 }
