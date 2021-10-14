@@ -40,7 +40,7 @@ function generateNewState(state, boardSize){
       }
       // adding the random errors
       if ( Math.random() < error ){
-        result[i][j] = 1 - result[i][j];
+        result[i][j] = Math.abs(1 - result[i][j]);
       }
 
     }
