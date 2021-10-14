@@ -31,7 +31,7 @@ function generateNewState(state, boardSize){
       ){
         result[i][j] = 1;
       }
-      if (
+      else if (
         state[i][j] === 1 &&
         (countNeighbors(state, boardSize, i, j) === 3 ||
         countNeighbors(state, boardSize, i, j) === 2)
@@ -54,12 +54,19 @@ function drawBoardFromState(state, boardSize){
     for (let j = 0; j < boardSize; j++){
       if (state[i][j] === 1){
         ctx.beginPath();
-        ctx.fillRect((i-1)*800/boardSize, (j-1)*800/boardSize, 800/boardSize, 800/boardSize);
+        ctx.fillRect((i)*800/boardSize, (j)*800/boardSize, 800/boardSize, 800/boardSize);
         ctx.closePath();
-      }else{
+      }else if(state[i][j] === 0){
         ctx.beginPath();
-        ctx.strokeRect((i-1)*800/boardSize, (j-1)*800/boardSize, 800/boardSize, 800/boardSize);
+        ctx.strokeRect((i)*800/boardSize, (j)*800/boardSize, 800/boardSize, 800/boardSize);
         ctx.closePath();
+      }
+      else{
+        ctx.strokeStyle = 'red';
+        ctx.beginPath();
+        ctx.fillRect((i)*800/boardSize, (j)*800/boardSize, 800/boardSize, 800/boardSize);
+        ctx.closePath();
+        ctx.strokeStyle = 'black';
       }
     }
   }
@@ -142,8 +149,8 @@ function canvasClicked(e){
   let canvasTop = canvas.offsetTop + canvas.clientTop;
   let x = e.pageX - canvasLeft;
   let y = e.pageY - canvasTop;
-  let i = Math.floor((x)*gridSize/800)+1;
-  let j = Math.floor((y)*gridSize/800)+1;
+  let i = Math.floor((x)*gridSize/800);
+  let j = Math.floor((y)*gridSize/800);
   if (!gameOn){
     if (gridState[i][j] === 0){
       gridState[i][j] = 1;
