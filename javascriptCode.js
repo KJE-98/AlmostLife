@@ -152,7 +152,7 @@ function canvasClicked(e){
       gridState[i][j] = 0;
     }
   }
-  requestAnimationFrame(draw)
+  requestAnimationFrame(draw);
 }
 
 function changeSize(){
