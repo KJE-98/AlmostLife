@@ -50,26 +50,29 @@ function generateNewState(state, boardSize){
 
 function drawBoardFromState(state, boardSize){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  let totalAlive = 0;
   for (let i = 0; i < boardSize; i++){
     for (let j = 0; j < boardSize; j++){
       if (state[i][j] === 1){
         ctx.beginPath();
-        ctx.fillRect((i)*800/boardSize, (j)*800/boardSize, 800/boardSize, 800/boardSize);
+        ctx.fillRect((i)*600/boardSize, (j)*600/boardSize, 600/boardSize, 600/boardSize);
         ctx.closePath();
+        totalAlive++;
       }else if(state[i][j] === 0){
         ctx.beginPath();
-        ctx.strokeRect((i)*800/boardSize, (j)*800/boardSize, 800/boardSize, 800/boardSize);
+        ctx.strokeRect((i)*600/boardSize, (j)*600/boardSize, 600/boardSize, 600/boardSize);
         ctx.closePath();
       }
       else{
         ctx.strokeStyle = 'red';
         ctx.beginPath();
-        ctx.fillRect((i)*800/boardSize, (j)*800/boardSize, 800/boardSize, 800/boardSize);
+        ctx.fillRect((i)*600/boardSize, (j)*600/boardSize, 600/boardSize, 600/boardSize);
         ctx.closePath();
         ctx.strokeStyle = 'black';
       }
     }
   }
+  document.getElementById("percentage").innerHTML = "Percentage of cells alive = " + totalAlive/(boardSize**2) + "%"
 }
 
 function draw() {
@@ -149,8 +152,8 @@ function canvasClicked(e){
   let canvasTop = canvas.offsetTop + canvas.clientTop;
   let x = e.pageX - canvasLeft;
   let y = e.pageY - canvasTop;
-  let i = Math.floor((x)*gridSize/800);
-  let j = Math.floor((y)*gridSize/800);
+  let i = Math.floor((x)*gridSize/600);
+  let j = Math.floor((y)*gridSize/600);
   if (!gameOn){
     if (gridState[i][j] === 0){
       gridState[i][j] = 1;
